@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+
+
+        <div class="right_col" role="main">
+
+            <div class="title_left">
+                <h3 th:text="${page.title}"></h3>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Subpage</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Url</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr th:each="subPage : ${page.subPages}">
+                                    <td><a th:href="@{/page/} + ${subPage.url}" th:text="${subPage.title}"></a>
+                                    </td>
+                                    <td th:text="${subPage.url}"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                            <div class="ln_solid"></div>
+
+                                <a class="btn btn-warning" th:href="@{/addPage(parentPageId=${page.id})}">Add subpage</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Add new content
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br/>
+                            <form th:action="@{/page/addPageText}" th:object="${pageTextForm}" method="post"
+                                  class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        Unique identity
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input th:field="*{identity}" type="text" required="required"
+                                               class="form-control col-md-7 col-xs-12"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Content type *</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select th:field="*{type}" class="form-control">
+                                            <option value="TEXT_BOX">Text box</option>
+                                            <option value="CK_EDITOR">CK Editor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+
+                                <input type="hidden" th:field="*{pageId}"/>
+                                <input type="hidden" th:field="*{content}"/>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <input type="submit" class="btn btn-warning" value="Save"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Add new image
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br/>
+                            <form th:action="@{/admin/addPageImage}" method="post" enctype="multipart/form-data"
+                                  class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        Unique identity
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input name="identity" type="text" required="required"
+                                               class="form-control col-md-7 col-xs-12"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        Download file
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <input name="file" type="file" required="required"
+                                               class="form-control col-md-7 col-xs-12"/>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+
+                                <input name="pageId" type="hidden" th:value="${page.id}"/>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <input type="submit" class="btn btn-warning" value="Save"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" th:each="pageTextEdit, stat : ${page.pageTexts}">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Identity: <span th:text="${pageTextEdit.identity}"></span>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <br/>
+                            <form th:action="@{/admin/page/editPageText}" method="post" id="demo-form2"
+                                  data-parsley-validate="" class="form-horizontal form-label-left"
+                                  novalidate="">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Obsah
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div th:if="${pageTextEdit.isCKEditor()}">
+                                                <textarea th:text="${pageTextEdit.content}" name="content"
+                                                          required="required"
+                                                          class="form-control col-md-7 col-xs-12 ckeditor">
+                                                </textarea>
+                                        </div>
+
+                                        <div th:if="${pageTextEdit.isTextBox()}">
+                                            <input th:value="${pageTextEdit.content}" name="content" required="required"
+                                                   class="form-control col-md-7 col-xs-12 ckeditor"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button type="submit" class="btn btn-success">Save</button>
+                                    </div>
+                                </div>
+
+                                <input name="identity" type="hidden" th:value="${pageTextEdit.identity}"/>
+                                <input name="pageId" type="hidden" th:value="*{page.id}"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-6" th:each="pageImage : ${page.pageImages}">
+                    <div class="x_panel">
+                        <div class="x_content">
+
+                            <div class="x_title">
+                                <h2>Identity: <span th:text="${pageImage.identity}"></span></h2>
+                                <div class="clearfix"></div>
+                            </div>
+
+
+                            <form th:action="@{/addPageImage}" method="post" enctype="multipart/form-data"
+                                  class="form-horizontal form-label-left">
+
+                                <div class="form-group">
+
+                                    <div class="image view view-first">
+                                        <img style="width: 100%; display: block;"
+                                             th:src="'/file/' + ${pageImage.fileName}" alt="image"/>
+                                    </div>
+
+                                </div>
+
+                                <input name="identity" type="hidden" th:value="${pageImage.identity}"/>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        Download file
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <input name="file" type="file" required="required"
+                                               class="form-control col-md-7 col-xs-12"/>
+                                    </div>
+                                </div>
+                                <div class="ln_solid"></div>
+
+                                <input name="pageId" type="hidden" th:value="${page.id}"/>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <input type="submit" class="btn btn-success" value="Save"/>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script>
+    $(function () {
+        CKEDITOR.replace('ckeditor');
+    });
+</script>
+
+
+</body>
+</html>
